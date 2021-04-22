@@ -347,6 +347,7 @@ function selectScreen () {
     })
 
     controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+        
         selector.destroy()
         mainArea(character)
     })
@@ -354,13 +355,13 @@ function selectScreen () {
 
 
 function mainArea (p1: number) {
-    let player = null
+    let mc = null
     let char2 = p1
 
     tiles.setTilemap(tilemap`level1`)
 
 	if (p1 == 1) {
-        player = sprites.create(img`
+        mc = sprites.create(img`
             . . . . . . f f f f . . . . . .
             . . . . f f f 2 2 f f f . . . .
             . . . f f f 2 2 2 2 f f f . . .
@@ -377,9 +378,9 @@ function mainArea (p1: number) {
             . . 4 4 f 4 4 5 5 4 4 f 4 4 . .
             . . . . . f f f f f f . . . . .
             . . . . . f f . . f f . . . . .
-        `, player)
+        `)
     } else if(p1 == 2) {
-        player = sprites.create(img`
+        mc = sprites.create(img`
             . . . . . f f 4 4 f f . . . . .
             . . . . f 5 4 5 5 4 5 f . . . .
             . . . f e 4 5 5 5 5 4 e f . . .
@@ -396,16 +397,39 @@ function mainArea (p1: number) {
             . . e f b d b d b d b b f e . .
             . . . f f 1 d 1 d 1 d f f . . .
             . . . . . f f b b f f . . . . .
-        `, player)
+        `)
     }
     
-    scene.cameraFollowSprite(player)
-    player.setPosition(128, 176)
-    controller.moveSprite(player)
-
+    scene.cameraFollowSprite(mc)
+    mc.setPosition(128, 176)
+    controller.moveSprite(mc)
+    mc.setKind(SpriteKind.Player)
     
     scene.onOverlapTile(SpriteKind.Player,assets.image`myTile2`, function(sprite: Sprite, location: tiles.Location) {
-        info.setLife(3)
+        mc = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+        mc.destroy()
+        insideCastle(char2)
+    })
+    
+    scene.onOverlapTile(SpriteKind.Player,assets.image`myTile2`, function(sprite: Sprite, location: tiles.Location) {
+        
     })
 }
 
@@ -457,5 +481,14 @@ function insideCastle (p1: number) {
 
 }
 
+
+function earthTemple() {
+    tiles.setTilemap((tilemap`level3`))
+}
+
+
+function waterTemple() {
+
+}
 
 titleScreen()

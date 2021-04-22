@@ -43,22 +43,22 @@ a c c a c c c c c c c c c c c a
 `;
             case "image3":
             case "myTile2":return img`
-b b b b b b b b b b b b b b b c 
-b b b b b b b b b b b b b b b c 
-d d d d d d d d d d d d d d d c 
-d d d d d d d d d d d d d d d c 
+c b b b b b b b b b b b b b b c 
+c b b b b b b b b b b b b b b c 
+c d d d d d d d d d d d d d d c 
+c d d d d d d d d d d d d d d c 
 c c c c c c c c c c c c c c c c 
-f f f f f f f f f f f f b b b c 
-f f f f f f f f f f f f b d d c 
-f f f f f f f f f f f f b d d c 
-f f f f f f f f f f f f b d d c 
-f f f f f f f f f f f f b d d c 
-f f f f f f f f f f f f c b b c 
-f f f f f f f f f f f f b d d c 
-f f f f f f f f f c c f b d d c 
-f f f f f c c c f f f f b d d c 
-c f f f c c c f f c c c b d d c 
-c c c c c c c c c c c c a c c a 
+c b b b f f f f f f f f b b b c 
+c d d b f f f f f f f f b d d c 
+c d d b f f f f f f f f b d d c 
+c d d b f f f f f f f f b d d c 
+c d d b f f f f f f f f b d d c 
+c b b c f f f f f f f f c b b c 
+c d d b f f f f f f f f b d d c 
+c d d b f f f f f c c f b d d c 
+c d d b f c c c f f f f b d d c 
+c d d b c c c f f c c c b d d c 
+a c c a c c c c c c c c a c c a 
 `;
         }
         return null;
