@@ -20,17 +20,38 @@ namespace myTiles {
     export const tile9 = image.ofBuffer(hex``);
     //% fixedInstance jres blockIdentity=images._tile
     export const tile10 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const tile11 = image.ofBuffer(hex``);
 
     helpers._registerFactory("tilemap", function(name: string) {
         switch(helpers.stringTrim(name)) {
+            case "level2":
+            case "level2":return tiles.createTilemap(hex`1000100004040404040402090304040404040404040406050404020103040406050404040404070804040201030404070804040404040404040402010304040404040404040404040404020103040404040404040404060504040201030404060504040404040708040402010304040708040404040404040404020103040404040404040404040404040201030404040404040404040605040402010304040605040404040407080404020103040407080404040404040404040201030404040404040404040404040402010304040404040404040406050404020103040406050404040404070804040201030404070804040404040404040402010304040404040404`, img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, [myTiles.transparency16,sprites.dungeon.darkGroundCenter,sprites.dungeon.darkGroundWest,sprites.dungeon.darkGroundEast,sprites.dungeon.floorLight0,sprites.dungeon.purpleInnerNorthEast,sprites.dungeon.purpleInnerNorthWest,sprites.dungeon.purpleInnerSouthWest,sprites.dungeon.purpleInnerSouthEast,myTiles.tile11], TileScale.Sixteen);
             case "level1":
-            case "level1":return tiles.createTilemap(hex`100010000a0a0a0a0b0b0a0a0a0a0a0a0a0a0a0a0a0a0b0b0b0a0a0a0a0b0b0a0a0a0a0a0b0b0c0c0b0a0a0a0a0a0b0b0a0a0a0a0a0a0c0b0b0a0a0a0a0a0a0b0b0a0a0a0a0a0a0a0a0a0f0f0f0f0a0a0b0a0a0a0a0a0a0a0a0a100d0e100a0a0a0a0a0a0a1e191b1a1f060202081f1316141e0a0a1e1711181f050101041f1211151e0a0a0a0602081f050101041f0602080a0a0a0a0701091f050101041f0701090a0a0a0b0b1c0a1f050101041f0b1c0a0a0a0a0a0b071d1d030303031d1d090a0a0a0a0a0a0a0b0b0b0b0b0b0b0b0a0a0a0a0a0a0a0b0b0b0b0a0b0b0b0b0c0a0a0a0a0a0a0a0a0a0a0b0b0b0b0c0c0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a`, img`
+            case "level1":return tiles.createTilemap(hex`100010000a0a0a0a0b0b0a0a0a0a0a0a0a0a0a0a0a0a0b0b0b0a0a0a0a0b0b0a0a0a0a0a0b0b0c0c0b0a0a0a0a0a0b0b0a0a0a0a0a0a0c0b0b0a0a0a0a0a0a0b0a0a0a0a0a0a0a0a0a0a0f0f0f0f0a0a0b0a0a0a0a0a0a0a0a0a100d0e100a0a0a0a0a0a0a1e191b1a1f060202081f1316141e0a0a1e1711181f050101041f1211151e0a0a0a0602081f050101041f0602080a0a0a0a0701091f050101041f0701090a0a0a0b0b1c0a1f050101041f0b1c0a0a0a0a0a0b071d1d030303031d1d090a0a0a0a0a0a0a0b0b0b0b0b0b0b0b0a0a0a0a0a0a0a0b0b0b0b0a0b0b0b0b0c0a0a0a0a0a0a0a0a0a0a0b0b0b0b0c0c0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a`, img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . 2 2 2 2 . . . . . . 
-. . . . . . 2 2 2 2 . . . . . . 
+. . . . . . 2 . . 2 . . . . . . 
 . 2 2 2 2 2 . . . . 2 2 2 2 2 . 
 . 2 2 2 2 2 . . . . 2 2 2 2 2 . 
 . . . . . 2 . . . . 2 . . . . . 
@@ -67,6 +88,8 @@ namespace myTiles {
             case "tile9":return tile9;
             case "myTile8":
             case "tile10":return tile10;
+            case "myTile9":
+            case "tile11":return tile11;
         }
         return null;
     })
