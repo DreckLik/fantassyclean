@@ -1,3 +1,179 @@
+let waterDone = true
+let earthDone = false
+
+function mainArea (p1: number) {
+    let char2 = p1
+    let mc = null
+
+    tiles.setTilemap(tilemap`level1`)
+    if (p1 == 1) {
+        mc = sprites.create(img`
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . . f e 2 f f f f f f 2 e f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e e 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `, 0)
+    } else if (p1 == 2) {
+        mc = sprites.create(img`
+            . . . . . f f 4 4 f f . . . . . 
+            . . . . f 5 4 5 5 4 5 f . . . . 
+            . . . f e 4 5 5 5 5 4 e f . . . 
+            . . f b 3 e 4 4 4 4 e 3 b f . . 
+            . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+            . f 3 3 e b 3 e e 3 b e 3 3 f . 
+            . f 3 3 f f e e e e f f 3 3 f . 
+            . f b b f b f e e f b f b b f . 
+            . f b b e 1 f 4 4 f 1 e b b f . 
+            f f b b f 4 4 4 4 4 4 f b b f f 
+            f b b f f f e e e e f f f b b f 
+            . f e e f b d d d d b f e e f . 
+            . . e 4 c d d d d d d c 4 e . . 
+            . . e f b d b d b d b b f e . . 
+            . . . f f 1 d 1 d 1 d f f . . . 
+            . . . . . f f b b f f . . . . . 
+            `, 0)
+    }
+    scene.cameraFollowSprite(mc)
+    mc.setPosition(128, 176)
+    controller.moveSprite(mc)
+    mc.setKind(SpriteKind.Player)
+    
+    scene.onOverlapTile(SpriteKind.Player,assets.tile`myTile2`, function(sprite: Sprite, location: tiles.Location) {
+        mc = sprites.create(img`
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+        `)
+        mc.destroy()
+        insideCastle(char2)
+    })
+
+    scene.onOverlapTile(SpriteKind.Player,assets.image`myTile3`, function(sprite: Sprite, location: tiles.Location) {
+        waterTemple(char2)
+    })
+
+    scene.onOverlapTile(SpriteKind.Player, img`
+        c b b b b b b b b b b b b b b c
+        c b b b b b b b b b b b b b b c
+        c d d d d d d d d d d d d d d c
+        c d d d d d d d d d d d d d d c
+        c c c c c c c c c c c c c c c c
+        c b b b f f f f f f f f b b b c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c b b c f f f f f f f f c b b c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f c c f b d d c
+        c d d b f c c c f f f f b d d c
+        c d d b c c c f f c c c b d d c
+        a c c a c c c c c c c c a c c a
+    `, function(sprite: Sprite, location: tiles.Location) {
+        mc = null
+        earthTemple(char2)
+    })
+
+}
+
+
+function insideCastle (p1: number) {
+    if(waterDone != true || earthDone != true) {
+        tiles.setTilemap(tilemap`level2`)
+        
+        let player = null
+
+        if (p1 == 1) {
+            player = sprites.create(img`
+                . . . . . . f f f f . . . . . . 
+                . . . . f f f 2 2 f f f . . . . 
+                . . . f f f 2 2 2 2 f f f . . . 
+                . . f f f e e e e e e f f f . . 
+                . . f f e 2 2 2 2 2 2 e e f . . 
+                . . f e 2 f f f f f f 2 e f . . 
+                . . f f f f e e e e f f f f . . 
+                . f f e f b f 4 4 f b f e f f . 
+                . f e e 4 1 f d d f 1 4 e e f . 
+                . . f e e d d d d d d e e f . . 
+                . . . f e e 4 4 4 4 e e f . . . 
+                . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+                . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+                . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+                . . . . . f f f f f f . . . . . 
+                . . . . . f f . . f f . . . . . 
+                `, 0)
+            player.setPosition(128, 0)
+        } else if (p1 == 2) {
+            player = sprites.create(img`
+                . . . . . f f 4 4 f f . . . . . 
+                . . . . f 5 4 5 5 4 5 f . . . . 
+                . . . f e 4 5 5 5 5 4 e f . . . 
+                . . f b 3 e 4 4 4 4 e 3 b f . . 
+                . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+                . f 3 3 e b 3 e e 3 b e 3 3 f . 
+                . f 3 3 f f e e e e f f 3 3 f . 
+                . f b b f b f e e f b f b b f . 
+                . f b b e 1 f 4 4 f 1 e b b f . 
+                f f b b f 4 4 4 4 4 4 f b b f f 
+                f b b f f f e e e e f f f b b f 
+                . f e e f b d d d d b f e e f . 
+                . . e 4 c d d d d d d c 4 e . . 
+                . . e f b d b d b d b b f e . . 
+                . . . f f 1 d 1 d 1 d f f . . . 
+                . . . . . f f b b f f . . . . . 
+                `, 0)
+            player.setPosition(128, 0)
+        }
+        scene.onOverlapTile(SpriteKind.Player,assets.image`exit`, function(sprite: Sprite, location: tiles.Location) {
+            player = null 
+            mainArea(p1)
+        })
+    } else if (waterDone == true && earthDone == true) {
+        scene.setBackgroundColor(0)
+        game.splash("So")
+        game.splash("You've completed my tasks.")
+        game.splash("My final challenge is a simple 50/50 chance.")
+        game.splash("You will either die because I said so.")
+        game.splash("Or win and rule the land.")
+        game.splash("here goes!")
+        let rand = randint(1, 2)
+        if(rand == 1) {
+            game.splash("Well...")
+            game.splash("This is just bad luck.")
+            game.over()
+        } else if(rand == 2) {
+            game.splash("You've won!")
+
+        }
+    }
+}
+
+
 function titleScreen () {
     scene.setBackgroundImage(img`
         bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
@@ -124,6 +300,193 @@ function titleScreen () {
     controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function() {
         selectScreen()
     })
+}
+
+
+function waterTemple (p1: number) {
+	tiles.setTilemap(tilemap`level4`)
+
+    let villian = sprites.create(img`
+        ................................
+        ...ffffffffffffffffffffffffff...
+        .fff7fddddddddddddddddddddf7fff.
+        f777ffddfddddddddddddddfddff777f
+        f777fddfffddddddddddddfffddf777f
+        f777fddf1fddddddddddddf1fddf777f
+        f777fddf1fddddddddddddf1fddf777f
+        f777fddfefddddddddddddfefddf777f
+        f777fddfffdddddfddddddfffddf777f
+        f777fdddfddddddfdddddddfdddf777f
+        f777fdddddddddfddddddddddddf777f
+        f777fdddddddddfddddddddddddf777f
+        f777fddddddddddddddddddddddf777f
+        f777fddddddddddffddddddddddf777f
+        f777fdddddddff22ffdddddddddf777f
+        .fff7fdddddddf2fddddddddddf7fff.
+        ...ffffffffffffffffffffffffff...
+        .........ff6677766777ff.........
+        ......ffff667776677fff..........
+        ....fff7766777667fff............
+        ...ff77666777667ff..............
+        ..ff77667777667ff...............
+        ..f777677777677ff...............
+        .ff7767777766777fff.............
+        .ff776677776677777fffff.........
+        ..f7776777776777777777ffffff....
+        ..f777667777766777777777777fff..
+        ..f77776667777666667777777777ff.
+        ..ff77777666667777666666667777ff
+        ...ff77777777666666777777667777f
+        ....ffffff777777776666777767777f
+        .........fffffffffffffffffffffff
+    `)
+    tiles.placeOnTile(villian, tiles.getTileLocation(8, 4))
+
+    let player = null
+    
+    if (p1 == 1) {
+        player = sprites.create(img`
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . . f e 2 f f f f f f 2 e f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e e 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `, 0)
+    } else if (p1 == 2) {
+        player = sprites.create(img`
+            . . . . . f f 4 4 f f . . . . . 
+            . . . . f 5 4 5 5 4 5 f . . . . 
+            . . . f e 4 5 5 5 5 4 e f . . . 
+            . . f b 3 e 4 4 4 4 e 3 b f . . 
+            . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+            . f 3 3 e b 3 e e 3 b e 3 3 f . 
+            . f 3 3 f f e e e e f f 3 3 f . 
+            . f b b f b f e e f b f b b f . 
+            . f b b e 1 f 4 4 f 1 e b b f . 
+            f f b b f 4 4 4 4 4 4 f b b f f 
+            f b b f f f e e e e f f f b b f 
+            . f e e f b d d d d b f e e f . 
+            . . e 4 c d d d d d d c 4 e . . 
+            . . e f b d b d b d b b f e . . 
+            . . . f f 1 d 1 d 1 d f f . . . 
+            . . . . . f f b b f f . . . . . 
+            `, 0)
+    }
+    scene.cameraFollowSprite(player)
+    tiles.placeOnTile(player, tiles.getTileLocation(8, 6))
+
+    game.splash("I am DANGER SNAKE.")
+    game.splash("I will give you my orb for one simple question!")
+    game.splash("What is the air-speed of a swallow?")
+    game.splash("A. .04? IDRK")
+    game.splash("B. African or European")
+
+
+    controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
+        game.over()
+    })
+    controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function() {
+        game.splash("YOU HAVE DEFEATED ME!")
+        game.splash("TAKE THE ORB!!!")
+        waterDone = true
+        mainArea(p1)
+    })
+
+}
+
+
+function earthTemple (p1: number) {
+    tiles.setTilemap(tilemap`level3`)
+    game.splash("Beat my maze of horror!" + "If you DARE!")
+    let mc = null
+
+    if (p1 == 1) {
+        mc = sprites.create(img`
+            . . . . . . f f f f . . . . . . 
+            . . . . f f f 2 2 f f f . . . . 
+            . . . f f f 2 2 2 2 f f f . . . 
+            . . f f f e e e e e e f f f . . 
+            . . f f e 2 2 2 2 2 2 e e f . . 
+            . . f e 2 f f f f f f 2 e f . . 
+            . . f f f f e e e e f f f f . . 
+            . f f e f b f 4 4 f b f e f f . 
+            . f e e 4 1 f d d f 1 4 e e f . 
+            . . f e e d d d d d d e e f . . 
+            . . . f e e 4 4 4 4 e e f . . . 
+            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . f f . . f f . . . . . 
+            `, 0)
+    } else if (p1 == 2) {
+        mc = sprites.create(img`
+            . . . . . f f 4 4 f f . . . . . 
+            . . . . f 5 4 5 5 4 5 f . . . . 
+            . . . f e 4 5 5 5 5 4 e f . . . 
+            . . f b 3 e 4 4 4 4 e 3 b f . . 
+            . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+            . f 3 3 e b 3 e e 3 b e 3 3 f . 
+            . f 3 3 f f e e e e f f 3 3 f . 
+            . f b b f b f e e f b f b b f . 
+            . f b b e 1 f 4 4 f 1 e b b f . 
+            f f b b f 4 4 4 4 4 4 f b b f f 
+            f b b f f f e e e e f f f b b f 
+            . f e e f b d d d d b f e e f . 
+            . . e 4 c d d d d d d c 4 e . . 
+            . . e f b d b d b d b b f e . . 
+            . . . f f 1 d 1 d 1 d f f . . . 
+            . . . . . f f b b f f . . . . . 
+            `, 0)
+    }
+    let character = mc
+    
+
+    scene.cameraFollowSprite(character)
+    controller.moveSprite(character)
+    tiles.placeOnTile(character, tiles.getTileLocation(24, 48))
+
+
+    scene.onOverlapTile(SpriteKind.Player, img`
+        a c c a c c c c c c c c a c c a
+        c d d b c c c f f c c c b d d c
+        c d d b f f f f c c c f b d d c
+        c d d b f c c f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c b b c f f f f f f f f c b b c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c d d b f f f f f f f f b d d c
+        c b b b f f f f f f f f b b b c
+        c c c c c c c c c c c c c c c c
+        c d d d d d d d d d d d d d d c
+        c d d d d d d d d d d d d d d c
+        c b b b b b b b b b b b b b b c
+        c b b b b b b b b b b b b b b c
+    `, function(sprite: Sprite, location: tiles.Location) {
+        game.splash("There's no escape!")
+    })
+
+
+    scene.onOverlapTile(SpriteKind.Player,assets.image`myTile4`, function(sprite: Sprite, location: tiles.Location) {
+        game.splash("NOOOO!")
+        game.splash("MY IMPENITRABLE MAZE!!")
+        earthDone = true
+        mainArea(p1)
+    })
+
 }
 
 
@@ -347,148 +710,135 @@ function selectScreen () {
     })
 
     controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
-        
         selector.destroy()
         mainArea(character)
     })
-}
-
-
-function mainArea (p1: number) {
-    let mc = null
-    let char2 = p1
-
-    tiles.setTilemap(tilemap`level1`)
-
-	if (p1 == 1) {
-        mc = sprites.create(img`
-            . . . . . . f f f f . . . . . .
-            . . . . f f f 2 2 f f f . . . .
-            . . . f f f 2 2 2 2 f f f . . .
-            . . f f f e e e e e e f f f . .
-            . . f f e 2 2 2 2 2 2 e e f . .
-            . . f e 2 f f f f f f 2 e f . .
-            . . f f f f e e e e f f f f . .
-            . f f e f b f 4 4 f b f e f f .
-            . f e e 4 1 f d d f 1 4 e e f .
-            . . f e e d d d d d d e e f . .
-            . . . f e e 4 4 4 4 e e f . . .
-            . . e 4 f 2 2 2 2 2 2 f 4 e . .
-            . . 4 d f 2 2 2 2 2 2 f d 4 . .
-            . . 4 4 f 4 4 5 5 4 4 f 4 4 . .
-            . . . . . f f f f f f . . . . .
-            . . . . . f f . . f f . . . . .
-        `)
-    } else if(p1 == 2) {
-        mc = sprites.create(img`
-            . . . . . f f 4 4 f f . . . . .
-            . . . . f 5 4 5 5 4 5 f . . . .
-            . . . f e 4 5 5 5 5 4 e f . . .
-            . . f b 3 e 4 4 4 4 e 3 b f . .
-            . . f 3 3 3 3 3 3 3 3 3 3 f . .
-            . f 3 3 e b 3 e e 3 b e 3 3 f .
-            . f 3 3 f f e e e e f f 3 3 f .
-            . f b b f b f e e f b f b b f .
-            . f b b e 1 f 4 4 f 1 e b b f .
-            f f b b f 4 4 4 4 4 4 f b b f f
-            f b b f f f e e e e f f f b b f
-            . f e e f b d d d d b f e e f .
-            . . e 4 c d d d d d d c 4 e . .
-            . . e f b d b d b d b b f e . .
-            . . . f f 1 d 1 d 1 d f f . . .
-            . . . . . f f b b f f . . . . .
-        `)
-    }
-    
-    scene.cameraFollowSprite(mc)
-    mc.setPosition(128, 176)
-    controller.moveSprite(mc)
-    mc.setKind(SpriteKind.Player)
-    
-    scene.onOverlapTile(SpriteKind.Player,assets.image`myTile2`, function(sprite: Sprite, location: tiles.Location) {
-        mc = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
-        mc.destroy()
-        insideCastle(char2)
-    })
-    
-    scene.onOverlapTile(SpriteKind.Player,assets.image`myTile2`, function(sprite: Sprite, location: tiles.Location) {
-        
-    })
-}
-
-
-function insideCastle (p1: number) {
-    let player = null
-
-    tiles.setTilemap(tilemap`level2`)
-
-	if (p1 == 1) {
-        player = sprites.create(img`
-            . . . . . . f f f f . . . . . .
-            . . . . f f f 2 2 f f f . . . .
-            . . . f f f 2 2 2 2 f f f . . .
-            . . f f f e e e e e e f f f . .
-            . . f f e 2 2 2 2 2 2 e e f . .
-            . . f e 2 f f f f f f 2 e f . .
-            . . f f f f e e e e f f f f . .
-            . f f e f b f 4 4 f b f e f f .
-            . f e e 4 1 f d d f 1 4 e e f .
-            . . f e e d d d d d d e e f . .
-            . . . f e e 4 4 4 4 e e f . . .
-            . . e 4 f 2 2 2 2 2 2 f 4 e . .
-            . . 4 d f 2 2 2 2 2 2 f d 4 . .
-            . . 4 4 f 4 4 5 5 4 4 f 4 4 . .
-            . . . . . f f f f f f . . . . .
-            . . . . . f f . . f f . . . . .
-        `)
-    } else if(p1 == 2) {
-        player = sprites.create(img`
-            . . . . . f f 4 4 f f . . . . .
-            . . . . f 5 4 5 5 4 5 f . . . .
-            . . . f e 4 5 5 5 5 4 e f . . .
-            . . f b 3 e 4 4 4 4 e 3 b f . .
-            . . f 3 3 3 3 3 3 3 3 3 3 f . .
-            . f 3 3 e b 3 e e 3 b e 3 3 f .
-            . f 3 3 f f e e e e f f 3 3 f .
-            . f b b f b f e e f b f b b f .
-            . f b b e 1 f 4 4 f 1 e b b f .
-            f f b b f 4 4 4 4 4 4 f b b f f
-            f b b f f f e e e e f f f b b f
-            . f e e f b d d d d b f e e f .
-            . . e 4 c d d d d d d c 4 e . .
-            . . e f b d b d b d b b f e . .
-            . . . f f 1 d 1 d 1 d f f . . .
-            . . . . . f f b b f f . . . . .
-        `)
-    }
 
 }
 
 
-function earthTemple() {
-    tiles.setTilemap((tilemap`level3`))
+function gameEnd() {
+    scene.setBackgroundImage(img`
+        fffffffffffffffffffffffff5555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffff55555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff55555ffffffffffffff55555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff55555ffffffffffffff55555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff55555ffffffffffffff55555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff55555fffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff555555ffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff555555ffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff555555ffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffff5555555fffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555ffffffffffffff5555555ffffffffffffffffffffffffffffffffffffff
+        fffffff5555555fffffffffffff555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffffffff555555555fffffffffffffffffffffffffffffffffffff
+        fffffff5555555fffffffffffff555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555ffffffffffff555555555555fffffffffffff555555555fffffffffffff
+        fffffff55555555ffffffffffff555555ffffffffffffffffffffffffffffffffffffffffffff55555fffffffffffff555555fffffffffff555555555555555fffffffff55555555555fffffffffffff
+        ffffffff55555555ffffffffff5555555fffffff555555555ffffffffffffffffffffffffffff55555ffffffffffffff55555fffffff55555555555555555555ffffff5555555555555fffffffffffff
+        fffffffff5555555fffffffff5555555ffffff5555555555555fffffffffffffffffffffffff555555ffffffffffffffffffffffffff55555555555555555555ffffff5555555555555fffffffffffff
+        fffffffff55555555fffffff55555555fffff5555555555555555fffffff55555fffffffffff5555555fffffffffffffffffffffffff55555555555555555555ffffff5555555555555fffffffffffff
+        ffffffffff55555555fffff555555555ffff555555555555555555ffffff55555fffffffffff5555555fffffffffffffffffffffffff555555555ffff5555555fffff55555555555555fffffffffffff
+        fffffffffff55555555ffff55555555fffff5555555555555555555fffff55555fffffffffff55555555ffffffffffffffffffffffff55555555fffffff55555ffff555555555555555fffffffffffff
+        fffffffffff55555555fff55555555fffff555555555f5555555555fffff55555fffffffffff55555555ffffffffffffffffffffffff55555555fffffffffffffff5555555555555555fffffffffffff
+        ffffffffffff55555555f55555555ffffff5555555fffff55555555fffff55555ffffffffff5555555555fffffffffffffffffffffff55555555fffffffffffffff5555555555555555fffffffffffff
+        fffffffffffff555555555555555ffffff5555555ffffffff5555555fff555555ffffffffff5555555555fffffffffffffffffffffff5555555fffffffffffffff5555555555555555ffffffffffffff
+        ffffffffffffff55555555555555ffffff5555555fffffffff555555fff555555ffffffffff55555555555ffffffffffffffffffffff5555555fffffffffffffff555555555555555fffffffffffffff
+        ffffffffffffff5555555555555fffffff555555ffffffffff555555fff555555ffffffffff555555555555ffffffffffffffffffffff555555fffffffffffffff55555555555555ffffffffffffffff
+        fffffffffffffff55555555555ffffffff555555ffffffffff555555fff555555ffffffffff555555555555ffffffffffffffffffffff555555fffffffffffffff555555555555ffffffffffffffffff
+        ffffffffffffffff555555555fffffffff55555ffffffffffff55555fff555555fffffffff55555555555555fffffffffffffffffffff555555fffffffffffffff5555555555ffffffffffffffffffff
+        ffffffffffffffff55555555ffffffffff55555ffffffffffff55555fff5555555ffffffff555555f55555555ffffffffffffffffffff555555ffffffffffffffff55555ffffffffffffffffffffffff
+        fffffffffffffffff5555555ffffffffff55555ffffffffffff55555ffff555555fffffff5555555ff55555555fffffffffffffffffff555555ffffffffffffffff555555fffffffffffffffffffffff
+        ffffffffffffffff55555555ffffffffff55555fffffffffff555555ffff5555555ffffff5555555ff555555555ffffffffffffffffff555555ffffffffffffffff555555fffffffff55555fffffffff
+        ffffffffffffffff555555ffffffffffff55555ffffffffff5555555ffff555555555fff5555555ffff5555555555ffffffffffffffff555555ffffffffffffffff5555555ffffffff55555fffffffff
+        ffffffffffffffff555555ffffffffffff555555ffffffff55555555fffff555555555555555555fffff55555555555ffffffffffffff55555fffffffffffffffff555555555fffff555555fffffffff
+        ffffffffffffffff555555ffffffffffff555555fffffff555555555fffff55555555555555555fffffff55555555555fffffffffffff55555ffffffffffffffffff5555555555555555555fffffffff
+        ffffffffffffffff55555fffffffffffff555555fffff5555555555fffffff5555555555555555ffffffff5555555555fffffffffffff55555ffffffffffffffffff5555555555555555555fffffffff
+        ffffffffffffffff55555fffffffffffff5555555fff5555555555fffffffff55555555555555ffffffffff555555555fffffffffffff55555fffffffffffffffffff555555555555555555fffffffff
+        ffffffffffffffff55555ffffffffffffff555555555555555555ffffffffffff55555555555fffffffffffff5555555ffffffffffffffffffffffffffffffffffffff55555555555555555fffffffff
+        ffffffffffffffff55555ffffffffffffff55555555555555555ffffffffffffff55555555fffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffff5555555555555fffffffffff
+        ffffffffffffffff55555ffffffffffffff5555555555555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffff55555fffffffffffffff5555555555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffff55555ffffffffffffffff55555555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffff55555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffff55555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff5555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffff555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffff55555555ffffffffffffffffffffffffffffffffffffff555555ffffffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffff55555555fffffffffffffffffffffffffffffffffffff5555555555fffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffff55555555ffffffffffffffffffffffffffffffffffff55555555555fffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffff55555555ffffffffffffffffffffffffffffffffff5555555555555fffffffffff
+        fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff55555ffffffffff55555555fffffffffffffffffffffffffffffffff55555555555555fffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555ffffffffff55555555ffffffffffffffffffffffffffffffff555555555555555fffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff555555fffffffffff5555555fffffffffffffff55555fffffffffff5555555555f555555ffffffffff
+        fffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffff555555fffffffffff555555ffffffffffffffff55555ffffffffff5555555555ff555555ffffffffff
+        fffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffff555555fffffffffff555555ffffffffffffffff55555ffffffffff55555555ffff555555ffffffffff
+        fffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffff555555ffffffffffffffff55555fffffffff55555555fffff555555ffffffffff
+        fffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffff555555fffffff55555555fffffff555555fffffffff
+        fffffffffffffffffffffffffffff55555fffffffffffffffffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffff555555fffffff5555555ffffffff555555fffffffff
+        fffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffff555555ffffff55555555ffffffff555555fffffffff
+        fffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffffffffffff555555ffffffffffffffffffffffffffffffffff555555ffffff5555555fffffffff555555fffffffff
+        fffffffffffffffffffffffffffff555555fffffffffffffffffffffff55555ffffffffffffff555555fffffffffffffffffffffffffffffffffff555555ffff5555555fffffffffff55555fffffffff
+        fffffffffffffffffffffffffffff555555ffffffffffffffffffffff555555ffffffffffffff55555ffffffffffffffffffffffffffffffffffff555555ffff5555555fffffffffff55555fffffffff
+        ffffffffffffffffffffffffffffff555555ffffffffffffffffffff5555555fffffffffffff555555ffffffffffffffffffffffffffffffffffff555555fff5555555ffffffffffff55555fffffffff
+        ffffffffffffffffffffffffffffff555555ffffffffffffffffffff5555555fffffffffffff555555fffffffffff55555ffffffffffffffffffff555555ff55555555ffffffffffff55555fffffffff
+        ffffffffffffffffffffffffffffff555555ffffffffffffffffffff55555555ffffffffffff555555fffffffffff55555fffffffffffffffffffff55555ff5555555fffffffffffff55555fffffffff
+        ffffffffffffffffffffffffffffff555555fffffffffffffffffff555555555fffffffffff5555555fffffffffff55555fffffffffffffffffffff55555f55555555fffffffffffff55555fffffffff
+        fffffffffffffffffffffffffffffff555555ffffffffffffffffff555555555fffffffffff555555ffffffffffff55555fffffffffffffffffffff55555f5555555ffffffffffffff55555fffffffff
+        fffffffffffffffffffffffffffffff555555fffffffffffffffff5555555555fffffffffff555555fffffffffff555555fffffffffffffffffffff555555555555fffffffffffffff55555fffffffff
+        fffffffffffffffffffffffffffffff555555fffffffffffffffff5555555555ffffffffff5555555fffffffffff555555fffffffffffffffffffff555555555555fffffffffffffff55555fffffffff
+        fffffffffffffffffffffffffffffff5555555ffffffffffffffff5555555555ffffffffff555555ffffffffffff555555fffffffffffffffffffff55555555555ffffffffffffffff555555ffffffff
+        ffffffffffffffffffffffffffffffff555555fffffffffffffff55555555555fffffffff5555555fffffffffff5555555fffffffffffffffffffff55555555555ffffffffffffffff555555ffffffff
+        ffffffffffffffffffffffffffffffff555555fffffffffffffff555555555555ffffffff5555555fffffffffff555555ffffffffffffffffffffff5555555555fffffffffffffffff555555ffffffff
+        ffffffffffffffffffffffffffffffff5555555ffffffffffffff555555555555ffffffff555555ffffffffffff555555ffffffffffffffffffffff5555555555fffffffffffffffff555555ffffffff
+        fffffffffffffffffffffffffffffffff555555fffffffffffff5555555555555fffffff5555555ffffffffffff555555ffffffffffffffffffffff555555555fffffffffffffffffff55555ffffffff
+        fffffffffffffffffffffffffffffffff555555fffffffffffff555555f555555fffffff555555fffffffffffff55555fffffffffffffffffffffff555555555ffffffffffffffffff555555ffffffff
+        fffffffffffffffffffffffffffffffff5555555ffffffffffff555555ff55555fffffff555555fffffffffffff55555fffffffffffffffffffffff555555555ffffffffffffffffff555555ffffffff
+        ffffffffffffffffffffffffffffffffff555555fffffffffff5555555ff55555ffffff5555555fffffffffffff55555fffffffffffffffffffffff55555555fffffffffffffffffff555555ffffffff
+        ffffffffffffffffffffffffffffffffff555555fffffffffff555555fff55555ffffff555555ffffffffffffff55555fffffffffffffffffffffff55555555fffffffffffffffffff555555ffffffff
+        ffffffffffffffffffffffffffffffffff555555fffffffffff555555fff555555ffff5555555ffffffffffffff55555fffffffffffffffffffffff5555555ffffffffffffffffffff55555fffffffff
+        fffffffffffffffffffffffffffffffffff55555ffffffffff5555555fff555555ffff5555555ffffffffffffff55555fffffffffffffffffffffff5555555fffffffffffffffffff555555fffffffff
+        fffffffffffffffffffffffffffffffffff555555fffffffff555555ffff555555fff5555555fffffffffffffff55555fffffffffffffffffffffff555555fffffffffffffffffff5555555fffffffff
+        fffffffffffffffffffffffffffffffffff555555ffffffff5555555ffff5555555ff5555555ffffffffffffff555555ffffffffffffffffffffff5555555fffffffffffffffffff5555555fffffffff
+        fffffffffffffffffffffffffffffffffff555555ffffffff5555555fffff555555f5555555fffffffffffffff555555ffffffffffffffffffffff5555555fffffffffffffffffff5555555fffffffff
+        fffffffffffffffffffffffffffffffffff555555fffffff5555555ffffff55555555555555fffffffffffffff555555ffffffffffffffffffffff555555ffffffffffffffffffff555555ffffffffff
+        ffffffffffffffffffffffffffffffffffff555555fffff55555555ffffff5555555555555ffffffffffffffff555555ffffffffffffffffffffff555555ffffffffffffffffffff555555ffffffffff
+        ffffffffffffffffffffffffffffffffffff555555fffff5555555ffffffff555555555555ffffffffffffffff55555fffffffffffffffffffffff555555ffffffffffffffffffff55555fffffffffff
+        ffffffffffffffffffffffffffffffffffff555555ffff55555555ffffffff55555555555fffffffffffffffff55555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffff5555555fff5555555ffffffffff5555555555fffffffffffffffff55555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffff555555ff5555555ffffffffffff55555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffff555555f55555555fffffffffffff555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffff55555555555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffff5555555555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffff555555555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffff55555555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffffff5555555555fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffff55555555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        fffffffffffffffffffffffffffffffffffffffff55555ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    `)
 }
-
-
-function waterTemple() {
-
-}
-
 titleScreen()
