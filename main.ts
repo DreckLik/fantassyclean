@@ -24,6 +24,9 @@ let selector = sprites.create(img`
 let character = 0
 let onTitle = false
 let onSelect = false
+let onWater = false
+let playera = null
+
 
 function mainArea (p1: number) {
     let char2 = p1
@@ -45,6 +48,12 @@ function mainArea (p1: number) {
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `)
+
+    game.splash("To beat the game")
+    game.splash("Beat the green dungeon")
+    game.splash("Then go to the castle")
+    game.splash("DON'T enter the purple one")
+    game.splash("Don't look at the bugs")
 
     tiles.setTilemap(tilemap`level1`)
     if (p1 == 1) {
@@ -193,7 +202,7 @@ function insideCastle (p1: number) {
             player = null 
             mainArea(p1)
         })
-    } else if (waterDone == true && earthDone == true) {
+    } else if (earthDone == true) {
         scene.setBackgroundColor(0)
         game.splash("So")
         game.splash("You've completed my tasks.")
@@ -343,12 +352,11 @@ function titleScreen () {
 
 controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function titleA() {
         
-    })
-
+})
 
 function waterTemple (p1: number) {
 	tiles.setTilemap(tilemap`level4`)
-    
+    onWater = true
 
     let villian = sprites.create(img`
         ................................
@@ -386,67 +394,57 @@ function waterTemple (p1: number) {
     `)
     tiles.placeOnTile(villian, tiles.getTileLocation(8, 4))
 
-    let player = null
-    
-    if (p1 == 1) {
-        player = sprites.create(img`
-            . . . . . . f f f f . . . . . . 
-            . . . . f f f 2 2 f f f . . . . 
-            . . . f f f 2 2 2 2 f f f . . . 
-            . . f f f e e e e e e f f f . . 
-            . . f f e 2 2 2 2 2 2 e e f . . 
-            . . f e 2 f f f f f f 2 e f . . 
-            . . f f f f e e e e f f f f . . 
-            . f f e f b f 4 4 f b f e f f . 
-            . f e e 4 1 f d d f 1 4 e e f . 
-            . . f e e d d d d d d e e f . . 
-            . . . f e e 4 4 4 4 e e f . . . 
-            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
-            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
-            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-            . . . . . f f f f f f . . . . . 
-            . . . . . f f . . f f . . . . . 
-            `, 0)
-    } else if (p1 == 2) {
-        player = sprites.create(img`
-            . . . . . f f 4 4 f f . . . . . 
-            . . . . f 5 4 5 5 4 5 f . . . . 
-            . . . f e 4 5 5 5 5 4 e f . . . 
-            . . f b 3 e 4 4 4 4 e 3 b f . . 
-            . . f 3 3 3 3 3 3 3 3 3 3 f . . 
-            . f 3 3 e b 3 e e 3 b e 3 3 f . 
-            . f 3 3 f f e e e e f f 3 3 f . 
-            . f b b f b f e e f b f b b f . 
-            . f b b e 1 f 4 4 f 1 e b b f . 
-            f f b b f 4 4 4 4 4 4 f b b f f 
-            f b b f f f e e e e f f f b b f 
-            . f e e f b d d d d b f e e f . 
-            . . e 4 c d d d d d d c 4 e . . 
-            . . e f b d b d b d b b f e . . 
-            . . . f f 1 d 1 d 1 d f f . . . 
-            . . . . . f f b b f f . . . . . 
-            `, 0)
+    playera = null
+    if(onWater == true) {
+        if (p1 == 1) {
+            playera = sprites.create(img`
+                . . . . . . f f f f . . . . . . 
+                . . . . f f f 2 2 f f f . . . . 
+                . . . f f f 2 2 2 2 f f f . . . 
+                . . f f f e e e e e e f f f . . 
+                . . f f e 2 2 2 2 2 2 e e f . . 
+                . . f e 2 f f f f f f 2 e f . . 
+                . . f f f f e e e e f f f f . . 
+                . f f e f b f 4 4 f b f e f f . 
+                . f e e 4 1 f d d f 1 4 e e f . 
+                . . f e e d d d d d d e e f . . 
+                . . . f e e 4 4 4 4 e e f . . . 
+                . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+                . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+                . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+                . . . . . f f f f f f . . . . . 
+                . . . . . f f . . f f . . . . . 
+                `, 0)
+        } else if (p1 == 2) {
+            playera = sprites.create(img`
+                . . . . . f f 4 4 f f . . . . . 
+                . . . . f 5 4 5 5 4 5 f . . . . 
+                . . . f e 4 5 5 5 5 4 e f . . . 
+                . . f b 3 e 4 4 4 4 e 3 b f . . 
+                . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+                . f 3 3 e b 3 e e 3 b e 3 3 f . 
+                . f 3 3 f f e e e e f f 3 3 f . 
+                . f b b f b f e e f b f b b f . 
+                . f b b e 1 f 4 4 f 1 e b b f . 
+                f f b b f 4 4 4 4 4 4 f b b f f 
+                f b b f f f e e e e f f f b b f 
+                . f e e f b d d d d b f e e f . 
+                . . e 4 c d d d d d d c 4 e . . 
+                . . e f b d b d b d b b f e . . 
+                . . . f f 1 d 1 d 1 d f f . . . 
+                . . . . . f f b b f f . . . . . 
+                `, 0)
+        }
+        scene.cameraFollowSprite(playera)
+        tiles.placeOnTile(playera, tiles.getTileLocation(8, 6))
+
+        game.splash("I am DANGER SNAKE.")
+        game.splash("I will give you my orb")
+        game.splash("If you answer one question")
+        game.splash("What is the air-speed of a swallow?")
+        game.splash("A. .04? IDRK")
+        game.splash("B. African or European")
     }
-    scene.cameraFollowSprite(player)
-    tiles.placeOnTile(player, tiles.getTileLocation(8, 6))
-
-    game.splash("I am DANGER SNAKE.")
-    game.splash("I will give you my orb for one simple question!")
-    game.splash("What is the air-speed of a swallow?")
-    game.splash("A. .04? IDRK")
-    game.splash("B. African or European")
-
-
-    controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
-        game.over()
-    })
-    controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function() {
-        game.splash("YOU HAVE DEFEATED ME!")
-        game.splash("TAKE THE ORB!!!")
-        waterDone = true
-        mainArea(p1)
-    })
-
 }
 
 
@@ -474,6 +472,7 @@ function earthTemple (p1: number) {
             . . . . . f f f f f f . . . . . 
             . . . . . f f . . f f . . . . . 
             `, 0)
+        mc.setKind(SpriteKind.Player)
     } else if (p1 == 2) {
         mc = sprites.create(img`
             . . . . . f f 4 4 f f . . . . . 
@@ -493,6 +492,7 @@ function earthTemple (p1: number) {
             . . . f f 1 d 1 d 1 d f f . . . 
             . . . . . f f b b f f . . . . . 
             `, 0)
+        mc.setKind(SpriteKind.Player)
     }
     let character = mc
     
@@ -753,7 +753,21 @@ controller.A.onEvent(ControllerButtonEvent.Pressed,  function() {
             onSelect = true
             selectScreen()
         }
+        if(onWater == true) {
+            game.over()
+        }
 })
+
+
+controller.player1.onButtonEvent(ControllerButton.B, ControllerButtonEvent.Pressed, function() {
+        if(onWater == true) {
+            game.splash("YOU HAVE DEFEATED ME!")
+            game.splash("TAKE THE ORB!!!")
+            waterDone = true
+            mainArea(1)
+        }
+})
+
 
 function gameEnd() {
     scene.setBackgroundImage(img`
